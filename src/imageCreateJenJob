@@ -1,0 +1,44 @@
+pipeline {
+//    agent any
+    agent { docker { image 'python:latest'}}
+    stages {
+        stage('My-JenkinsBuild-Steps') {
+            steps {
+                script {
+                    echo "Start"
+                    echo "This is a Jenkins job to create an image"
+                    echo "End"
+                }
+            }
+        }
+        stage('1-Create Image') {
+            steps {
+                script {
+                    echo "Creating image..."
+                    // Add your image creation commands here
+                    echo "Image created successfully."
+                }
+            }
+        }
+        stage('2-Test Image') {
+            steps {
+                script {
+                    echo "Test image..."
+                    sh "ls -al"
+                    // Add your image Tested commands here
+                    echo "Image Tested successfully."
+                }
+            }
+        }
+        stage('3-Deploy Image') {
+            steps {
+                script {
+                    echo "Deploying image..."
+                    sh "python --version"
+                    // Add your image deployment commands here
+                    echo "Image deployed successfully."
+                }
+            }
+        }
+    }
+}
