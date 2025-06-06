@@ -8,14 +8,16 @@ pipeline {
         //- update your credentials ID after creating credentials for connecting to Docker Hub
         registryCredential = 'dockerhub'
         dockerImage = ''
+    }
     
-    stage ('checkout') {
+    stages {
+        stage ('checkout') {
             steps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/AnatolyTheSWE/Protfolio1.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/AnatolyTheSWE/Protfolio1.git']]])
             }
     }
 
-    stage ('Build docker image') {
+        stage ('Build docker image') {
             steps {
                 script {
                     dockerImage = docker.build registry
@@ -24,13 +26,14 @@ pipeline {
         }
     
     // Uploading Docker images into Docker Hub
-    stage('Upload Image') {
-        steps{   
-            script {
-                docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
+        stage('Upload Image') {
+            steps{   
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push('latest')
+                    }
+                }
             }
         }
-      }
     }
 }
