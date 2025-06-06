@@ -1,6 +1,7 @@
 pipeline {
 //    agent {label 'myslave'}
-    agent { docker { image 'python:latest'}}
+//    agent { docker { image 'python:latest'}}
+    agent any
 
     environment {
         //once you sign up for Docker hub, use that user_id here
@@ -20,7 +21,8 @@ pipeline {
         stage ('Build docker image') {
             steps {
                 script {
-                    dockerImage = docker.build registry
+                    dockerImage = docker.build registry + ":latest"
+                    echo "Docker image built: ${dockerImage}"
                 }
             }
         }

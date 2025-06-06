@@ -17,15 +17,27 @@
 # # run the application
 # CMD ["python", "/usr/src/app/app.py"]
 
-FROM azurelinux
+# FROM azurelinux
 
-RUN yum -y update
-RUN yum -y install httpd
-RUN yum -y install php
+# RUN yum -y update
+# RUN yum -y install httpd
+# RUN yum -y install php
 
-COPY . /var/www/html/
+# COPY . /var/www/html/
 
 
-CMD ["/usr/sbin/httpd/", "-D", "FOREGROUND"]
+# CMD ["/usr/sbin/httpd/", "-D", "FOREGROUND"]
+
+# EXPOSE 80
+
+FROM nginx:alpine
+
+COPY . /usr/share/nginx/html
 
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+# This Dockerfile uses the official Nginx image, copies the current directory contents to the Nginx HTML directory,
+# exposes port 80, and runs Nginx in the foreground.    
+# It is a simple setup for serving static files using Nginx.
+# Make sure to have an index.html file in the current directory to serve as the default page.
